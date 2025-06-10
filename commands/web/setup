@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Installing dependencies
+composer install
+
+# Installing Thelia & DB
+php Thelia thelia:install --database_host=db --database_username=db --database_password=db --database_name=db --database_port=3306
+
+# Installing templates
+php Thelia template:set frontOffice flexy
+php Thelia template:set backOffice default
+rm -Rf var/cache/*
+
+# Installing mock data
+php setup/import.php
+
+# Compiling assets
+cd templates/frontOffice/flexy 
+npm i 
+npm run build
+cd -
+
